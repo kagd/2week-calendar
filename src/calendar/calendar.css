@@ -1,0 +1,94 @@
+body * {
+  box-sizing: content-box;
+}
+
+.calendar {
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.calendar ol {
+  margin: 0;
+  padding: 0;
+}
+
+.calendar li {
+  border: 1px solid #000;
+  box-sizing: border-box;
+  border-top: none;
+  border-right: none;
+  display: inline-block;
+  height: 75px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  /* divide by number of days per line*/
+  width: calc(100% / 7);
+}
+
+.calendar li:hover {
+  background-color: #efefef;
+  cursor: pointer;
+}
+
+/* last day of each row */
+.calendar li:nth-child(7n) {
+  border-right: 1px solid #000;
+}
+
+/* top row */
+.calendar li:nth-child(-n+7) {
+  border-top: 1px solid #000;
+}
+
+.calendar li.unavailable-date {
+  background-color: #ccc;
+}
+.calendar li.unavailable-date:hover {
+  cursor: default;
+}
+
+.calendar li.unavailable-date .rate {
+  opacity: 0;
+}
+
+.calendar li.highlight-date::after {
+  border: 3px solid blue;
+  box-sizing: border-box;
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.calendar li.initial-selected-date {
+  background-color: lightblue;
+}
+
+.calendar .day-of-month {
+  font-size: 0.9rem;
+  left: 5px;
+  line-height: 100%;
+  position: absolute;
+  top: 3px;
+  z-index: 1;
+}
+
+.calendar .rate {
+  display: block;
+  font-size: 1.2rem;
+  height: 100%;
+  line-height: 75px;
+}
+
+.calendar .month-name {
+  color: #444;
+  font-size: 0.8rem;
+  font-style: italic;
+}
