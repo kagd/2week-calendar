@@ -15,6 +15,18 @@ export function months(year: number){
   ];
 }
 
+const mondayDayOfWeekMapping = [
+  // the JS Date API is zero-indexed with 0 being Sunday
+  // so in order to support Monday as the display start
+  // of the week we need to map the JS Date start of week
+  // (0) to be the last in the array instead of first
+  1,2,3,4,5,6,0
+]
+
+function dayOfWeekIndex(index: number, dayOfWeekIndexArray = mondayDayOfWeekMapping): number {
+  return dayOfWeekIndexArray.indexOf(index);
+}
+
 function isLeapYear(year: number) {
   return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
 }
@@ -96,7 +108,7 @@ export function subtractDays(date: Date, numToSubtract: number ): NewDate{
 
 export function getDatesFromRates(rates: Rate[]){
   const startDate = rates[0].transit.minimumPickupDate;
-  const dayOfWeek = startDate.getUTCDay();
+  const dayOfWeek = dayOfWeekIndex(startDate.getUTCDay());
   const isStartOfWeek = dayOfWeek === 0;
   const dates: RateDate[] = [];
   // if day is after the start of the week we have to
@@ -118,7 +130,7 @@ export function getDatesFromRates(rates: Rate[]){
   });
 
   const lastRateDate = rates[rates.length - 1].transit.minimumPickupDate;
-  const lastRateDayOfWeek = lastRateDate.getUTCDay();
+  const lastRateDayOfWeek = dayOfWeekIndex(lastRateDate.getUTCDay());
   const endsOnSaturday = lastRateDayOfWeek === 6;
   // if the last rate is prior to saturday
   // append blank days to fill out week
